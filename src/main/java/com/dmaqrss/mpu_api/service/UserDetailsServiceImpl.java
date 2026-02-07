@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.security;
+package com.dmaqrss.mpu_api.service;
 
 import com.dmaqrss.mpu_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Usarario não encontrado"));
     }
 }

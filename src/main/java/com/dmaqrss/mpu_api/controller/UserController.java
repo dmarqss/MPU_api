@@ -14,8 +14,6 @@ public class UserController {
     @Autowired
     UserService service;
 
-
-
     @PostMapping(path = "/register")
     public ResponseEntity<?> register(@RequestBody @Valid UserRequestDTO dto){
         service.register(dto);
