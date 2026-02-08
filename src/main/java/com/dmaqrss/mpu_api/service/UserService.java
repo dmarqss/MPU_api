@@ -1,14 +1,18 @@
 package com.dmaqrss.mpu_api.service;
 
-import com.dmaqrss.mpu_api.dto.UserRequestDTO;
+import com.dmaqrss.mpu_api.dto.UserRegisterDTO;
+import com.dmaqrss.mpu_api.dto.UserResponseDTO;
+import com.dmaqrss.mpu_api.dto.UserRoleDTO;
 import com.dmaqrss.mpu_api.exception.BusinessException;
 import com.dmaqrss.mpu_api.mapper.UserMapper;
 import com.dmaqrss.mpu_api.model.User;
 import com.dmaqrss.mpu_api.model.UserRoles;
 import com.dmaqrss.mpu_api.repository.UserRepository;
+import com.dmaqrss.mpu_api.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class UserService {
@@ -22,7 +26,13 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public void register(UserRequestDTO dto){
+    @Autowired
+    TokenService tokenService;
+
+    @Autowired
+    EmailService emailService;
+
+    public UserResponseDTO register(UserRegisterDTO dto){
         if(repository.existsByEmail(dto.email())){throw new BusinessException("o email já existe");}
 
         String encryptedPassword = passwordEncoder.encode(dto.password());
@@ -30,6 +40,39 @@ public class UserService {
         user.setPassword(encryptedPassword);
         user.setRole(UserRoles.USER);
         repository.save(user);
+        return mapper.toResponse(user);
     }
 
+    public UserResponseDTO updateRole(String email, UserRoleDTO role){
+        User user = repository.findByEmail(email).orElseThrow(() -> new BusinessException("o email não existe"));
+        user.setRole(role.role());
+        return mapper.toResponse(user);
+    }
+
+    public void sendResetPasswordEmail(String email){
+        repository.findByEmail(email).ifPresent(user -> {
+            String token = tokenService.generateResetToken(email);
+            String link = "http://localhost:8080/user/reset-password?token=" + token;
+            emailService.sendEmail(email, "reset de senha", "clique " + link);
+        });
+    }
+
+    public void resetPassword(String token, String newPassword){
+        String email = tokenService.validateResetToken(token);
+
+        repository.findByEmail(email).ifPresent(user -> {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            repository.save(user);
+        });
+    }
+
+    public void delete(String email){
+        User user = repository.findByEmail(email).orElseThrow(() -> new BusinessException("email invalido"));
+        repository.delete(user);
+    }
+
+    public UserResponseDTO getUser(String email){
+        User user = repository.findByEmail(email).orElseThrow(() -> new BusinessException("email invalido"));
+        return mapper.toResponse(user);
+    }
 }

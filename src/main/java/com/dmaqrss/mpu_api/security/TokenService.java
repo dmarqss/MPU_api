@@ -49,4 +49,28 @@ public class TokenService {
         return LocalDateTime.now().plusDays(2).toInstant(ZoneOffset.of("-03:00"));
     }
 
+    private Instant generateResetExpirationDate(){
+        return LocalDateTime.now().plusMinutes(30).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    public String generateResetToken(String email){
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.create()
+                .withSubject(email)
+                .withExpiresAt(generateResetExpirationDate())
+                .sign(algorithm);
+    }
+
+    public String validateResetToken(String token){
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        try{
+            return JWT.require(algorithm)
+                    .build()
+                    .verify(token)
+                    .getSubject();
+
+        }catch (Exception e){
+            throw new RuntimeException("token invalido ou expirado");
+        }
+    }
 }

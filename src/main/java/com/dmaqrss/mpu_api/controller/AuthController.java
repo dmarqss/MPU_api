@@ -2,6 +2,8 @@ package com.dmaqrss.mpu_api.controller;
 
 import com.dmaqrss.mpu_api.dto.UserLoginDTO;
 import com.dmaqrss.mpu_api.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,10 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping
+    @Operation(
+            summary = "user login",
+            description = "Validates the user's login and returns a simple token. (permite all roles)"
+    )
     public ResponseEntity<String> login(@RequestBody UserLoginDTO dto){
         return ResponseEntity.status(HttpStatus.OK).body(authService.login(dto));
     }

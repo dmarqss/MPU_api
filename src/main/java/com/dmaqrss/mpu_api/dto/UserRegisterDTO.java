@@ -3,7 +3,7 @@ package com.dmaqrss.mpu_api.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public record UserRequestDTO(
+public record UserRegisterDTO(
         @NotBlank
         String name,
 

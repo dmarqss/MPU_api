@@ -23,13 +23,20 @@ public class SecurityConfig {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/swagger-ui.html").hasRole("ADMIN")
+                        .requestMatchers( "/swagger-ui/**","/v3/api-docs/**", "/swegger-ui.html").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/products").hasRole("SELLER")
                         .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("SELLER")
                         .requestMatchers(HttpMethod.PUT, "/products").hasRole("SELLER")
-                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/**").hasRole("USER")
+
+                        .requestMatchers(HttpMethod.PUT, "/user/role/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/forgot-password/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/reset-password/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
