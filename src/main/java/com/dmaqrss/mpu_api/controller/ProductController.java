@@ -5,6 +5,7 @@ import com.dmaqrss.mpu_api.dto.ProductResponseDTO;
 import com.dmaqrss.mpu_api.dto.ProductUpdateDTO;
 import com.dmaqrss.mpu_api.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,8 @@ public class ProductController {
     @PostMapping
     @Operation(
             summary = "Create a product",
-            description = "Creates a new product with the given information"
+            description = "Creates a new product with the given information. (Need seller role)",
+            security = @SecurityRequirement(name = "bearer token")
     )
     public ResponseEntity<ProductResponseDTO> createUser(@RequestBody @Valid ProductRequestDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
@@ -37,7 +39,8 @@ public class ProductController {
     @DeleteMapping(path = "/{barCode}")
     @Operation(
             summary = "Delete a product",
-            description = "Deletes product by its barcode"
+            description = "Deletes product by its barcode. (Need seller role)",
+            security = @SecurityRequirement(name = "bearer token")
     )
     public ResponseEntity<?> delete(@PathVariable Long barCode){
         service.delete(barCode);
@@ -47,7 +50,8 @@ public class ProductController {
     @PutMapping(path = "/{barCode}")
     @Operation(
             summary = "Update a product",
-            description = "Updates product data by barcode"
+            description = "Updates product data by barcode. (Need seller role)",
+            security = @SecurityRequirement(name = "bearer token")
     )
     public ResponseEntity<ProductResponseDTO> update(@RequestBody @Valid ProductUpdateDTO dto, @PathVariable Long barCode){
         return ResponseEntity.status(HttpStatus.OK).body(service.update(dto,barCode));
@@ -57,7 +61,8 @@ public class ProductController {
     @GetMapping(path = "/{barCode}")
     @Operation(
             summary = "Get product by barcode",
-            description = "return a product by its barcode"
+            description = "return a product by its barcode. (Need user role)",
+            security = @SecurityRequirement(name = "bearer token")
     )
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long barCode){
         return ResponseEntity.status(HttpStatus.OK).body(service.getProduct(barCode));
@@ -66,9 +71,15 @@ public class ProductController {
     @GetMapping
     @Operation(
             summary = "Get a paginated list of products",
-            description = "Return all products with pagination and sorting"
+            description = "Return all products with pagination and sorting. (Need user role)",
+            security = @SecurityRequirement(name = "bearer token")
     )
-    public ResponseEntity<Page<ProductResponseDTO>> getProducts(@PageableDefault(page = 0, size = 2, sort = "name", direction = Sort.Direction.ASC)Pageable pageable){
+    public ResponseEntity<Page<ProductResponseDTO>> getProducts(@PageableDefault(
+            page = 0,
+            size = 2,
+            sort = "name",
+            direction = Sort.Direction.ASC) Pageable pageable){
+
         return ResponseEntity.status(HttpStatus.OK).body(service.getProducts(pageable));
     }
 }
