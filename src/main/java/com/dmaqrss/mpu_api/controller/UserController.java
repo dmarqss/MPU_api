@@ -1,12 +1,11 @@
 package com.dmaqrss.mpu_api.controller;
 
-import com.dmaqrss.mpu_api.dto.UserRegisterDTO;
-import com.dmaqrss.mpu_api.dto.UserResponseDTO;
-import com.dmaqrss.mpu_api.dto.UserRoleDTO;
+import com.dmaqrss.mpu_api.dto.user.UserRegisterDTO;
+import com.dmaqrss.mpu_api.dto.user.UserResponseDTO;
+import com.dmaqrss.mpu_api.dto.user.UserRoleDTO;
 import com.dmaqrss.mpu_api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.persistence.GeneratedValue;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

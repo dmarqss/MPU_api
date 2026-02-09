@@ -1,5 +1,6 @@
 package com.dmaqrss.mpu_api.model;
 
+import com.dmaqrss.mpu_api.model.roles.UserRoles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,12 +1,12 @@
 package com.dmaqrss.mpu_api.service;
 
-import com.dmaqrss.mpu_api.dto.UserRegisterDTO;
-import com.dmaqrss.mpu_api.dto.UserResponseDTO;
-import com.dmaqrss.mpu_api.dto.UserRoleDTO;
+import com.dmaqrss.mpu_api.dto.user.UserRegisterDTO;
+import com.dmaqrss.mpu_api.dto.user.UserResponseDTO;
+import com.dmaqrss.mpu_api.dto.user.UserRoleDTO;
 import com.dmaqrss.mpu_api.exception.BusinessException;
 import com.dmaqrss.mpu_api.mapper.UserMapper;
 import com.dmaqrss.mpu_api.model.User;
-import com.dmaqrss.mpu_api.model.UserRoles;
+import com.dmaqrss.mpu_api.model.roles.UserRoles;
 import com.dmaqrss.mpu_api.repository.UserRepository;
 import com.dmaqrss.mpu_api.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;

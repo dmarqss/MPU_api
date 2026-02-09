@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.dto;
+package com.dmaqrss.mpu_api.dto.product;
 import java.math.BigDecimal;
 
 public record ProductResponseDTO(

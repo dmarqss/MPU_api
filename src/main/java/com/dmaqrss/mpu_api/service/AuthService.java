@@ -1,6 +1,6 @@
 package com.dmaqrss.mpu_api.service;
 
-import com.dmaqrss.mpu_api.dto.UserLoginDTO;
+import com.dmaqrss.mpu_api.dto.user.UserLoginDTO;
 import com.dmaqrss.mpu_api.model.User;
 import com.dmaqrss.mpu_api.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;

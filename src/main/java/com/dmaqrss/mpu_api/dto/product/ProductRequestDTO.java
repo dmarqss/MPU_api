@@ -1,11 +1,11 @@
-package com.dmaqrss.mpu_api.dto;
+package com.dmaqrss.mpu_api.dto.product;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
 
-public record ProductUpdateDTO(
+public record ProductRequestDTO(
         @NotNull(message = "o nome é obrigatorio")
         String name,
 
@@ -21,7 +21,11 @@ public record ProductUpdateDTO(
         BigDecimal price,
 
         @NotNull(message = "o tipo é obrigatorio")
-        String type
+        String type,
 
-        ) {
+        @NotNull(message = "o codigo de barras é obrigaorio")
+        @PositiveOrZero(message = "codigo de barras invalido")
+        Long barCode
+
+) {
 }

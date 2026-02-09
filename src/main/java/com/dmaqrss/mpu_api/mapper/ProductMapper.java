@@ -1,7 +1,7 @@
 package com.dmaqrss.mpu_api.mapper;
 
-import com.dmaqrss.mpu_api.dto.ProductRequestDTO;
-import com.dmaqrss.mpu_api.dto.ProductResponseDTO;
+import com.dmaqrss.mpu_api.dto.product.ProductRequestDTO;
+import com.dmaqrss.mpu_api.dto.product.ProductResponseDTO;
 import com.dmaqrss.mpu_api.model.Product;
 import org.mapstruct.Mapper;
 

@@ -1,9 +1,8 @@
 package com.dmaqrss.mpu_api.controller;
 
-import com.dmaqrss.mpu_api.dto.UserLoginDTO;
+import com.dmaqrss.mpu_api.dto.user.UserLoginDTO;
 import com.dmaqrss.mpu_api.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

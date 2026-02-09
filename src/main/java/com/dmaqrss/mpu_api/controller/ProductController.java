@@ -1,8 +1,8 @@
 package com.dmaqrss.mpu_api.controller;
 
-import com.dmaqrss.mpu_api.dto.ProductRequestDTO;
-import com.dmaqrss.mpu_api.dto.ProductResponseDTO;
-import com.dmaqrss.mpu_api.dto.ProductUpdateDTO;
+import com.dmaqrss.mpu_api.dto.product.ProductRequestDTO;
+import com.dmaqrss.mpu_api.dto.product.ProductResponseDTO;
+import com.dmaqrss.mpu_api.dto.product.ProductUpdateDTO;
 import com.dmaqrss.mpu_api.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
