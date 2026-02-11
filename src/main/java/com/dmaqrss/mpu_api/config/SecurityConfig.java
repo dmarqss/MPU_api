@@ -37,6 +37,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/forgot-password/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/reset-password/**").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "order/*/payment/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "payment/*/confirm").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "payment/*/fail").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

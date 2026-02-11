@@ -82,4 +82,18 @@ public class OrderService {
                 .map(i -> i.getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public OrderResponseDTO cancelOrder(Long id, User user){
+        Order order = validateOrder(id);
+        if(!order.getUser().getId().equals(user.getId())) throw new RuntimeException("este usuario nao tem permissao para fazer isso");
+        order.setStatus(OrderStatusRole.CANCELED);
+        orderRepository.save(order);
+        return mapper.toResponse(order);
+    }
+
+    private Order validateOrder(Long id){
+        Order order = orderRepository.findById(id).orElseThrow(() -> new BusinessException("o pedido não existe"));
+        if(order.getStatus() != OrderStatusRole.PENDING) throw new RuntimeException(" o pedido nao pode ser cancelado");
+        return order;
+    }
 }
