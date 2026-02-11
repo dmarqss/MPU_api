@@ -49,7 +49,6 @@ public class OrderService {
         order.setUser(user);
         order.setStatus(OrderStatusRole.PENDING);
         order.setCreatedAt(LocalDateTime.now());
-
         return order;
     }
 
