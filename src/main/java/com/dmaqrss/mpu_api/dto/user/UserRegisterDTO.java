@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.dto;
+package com.dmaqrss.mpu_api.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

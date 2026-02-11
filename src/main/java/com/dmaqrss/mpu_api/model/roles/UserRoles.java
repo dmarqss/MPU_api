@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.model;
+package com.dmaqrss.mpu_api.model.roles;
 
 import lombok.Getter;
 

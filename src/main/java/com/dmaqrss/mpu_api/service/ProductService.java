@@ -1,8 +1,8 @@
 package com.dmaqrss.mpu_api.service;
 
-import com.dmaqrss.mpu_api.dto.ProductRequestDTO;
-import com.dmaqrss.mpu_api.dto.ProductResponseDTO;
-import com.dmaqrss.mpu_api.dto.ProductUpdateDTO;
+import com.dmaqrss.mpu_api.dto.product.ProductRequestDTO;
+import com.dmaqrss.mpu_api.dto.product.ProductResponseDTO;
+import com.dmaqrss.mpu_api.dto.product.ProductUpdateDTO;
 import com.dmaqrss.mpu_api.exception.BusinessException;
 import com.dmaqrss.mpu_api.mapper.ProductMapper;
 import com.dmaqrss.mpu_api.model.Product;
@@ -11,8 +11,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
