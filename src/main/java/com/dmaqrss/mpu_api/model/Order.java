@@ -36,4 +36,11 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
+
+    @OneToMany(mappedBy = "order")
+    private List<Payment> payments = new ArrayList<>();
+
+    public void addPayment(Payment payment){
+        this.payments.add(payment);
+    }
 }
