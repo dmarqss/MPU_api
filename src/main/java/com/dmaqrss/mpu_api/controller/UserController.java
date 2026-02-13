@@ -3,7 +3,7 @@ package com.dmaqrss.mpu_api.controller;
 import com.dmaqrss.mpu_api.dto.user.UserRegisterDTO;
 import com.dmaqrss.mpu_api.dto.user.UserResponseDTO;
 import com.dmaqrss.mpu_api.dto.user.UserRoleDTO;
-import com.dmaqrss.mpu_api.service.UserService;
+import com.dmaqrss.mpu_api.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.service;
+package com.dmaqrss.mpu_api.service.user;
 
 import com.dmaqrss.mpu_api.dto.user.ResetPasswordDTO;
 import com.dmaqrss.mpu_api.dto.user.UserRegisterDTO;

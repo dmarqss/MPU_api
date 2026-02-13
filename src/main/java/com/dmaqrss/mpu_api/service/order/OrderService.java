@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.service;
+package com.dmaqrss.mpu_api.service.order;
 
 import com.dmaqrss.mpu_api.dto.order.CreateOrderRequestDTO;
 import com.dmaqrss.mpu_api.dto.order.OrderItemRequestDTO;

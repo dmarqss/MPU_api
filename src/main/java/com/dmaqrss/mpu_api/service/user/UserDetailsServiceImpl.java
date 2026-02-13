@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.service;
+package com.dmaqrss.mpu_api.service.user;
 
 import com.dmaqrss.mpu_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

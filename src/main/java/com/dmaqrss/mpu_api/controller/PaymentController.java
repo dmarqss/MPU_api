@@ -3,7 +3,7 @@ package com.dmaqrss.mpu_api.controller;
 import com.dmaqrss.mpu_api.dto.payment.PaymentResponseDTO;
 import com.dmaqrss.mpu_api.model.User;
 import com.dmaqrss.mpu_api.model.roles.PaymentMethod;
-import com.dmaqrss.mpu_api.service.PaymentService;
+import com.dmaqrss.mpu_api.service.payment.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
