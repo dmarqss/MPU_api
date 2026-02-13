@@ -1,5 +1,6 @@
 package com.dmaqrss.mpu_api.service;
 
+import com.dmaqrss.mpu_api.dto.user.ResetPasswordDTO;
 import com.dmaqrss.mpu_api.dto.user.UserRegisterDTO;
 import com.dmaqrss.mpu_api.dto.user.UserResponseDTO;
 import com.dmaqrss.mpu_api.dto.user.UserRoleDTO;
@@ -7,6 +8,7 @@ import com.dmaqrss.mpu_api.exception.BusinessException;
 import com.dmaqrss.mpu_api.mapper.UserMapper;
 import com.dmaqrss.mpu_api.model.User;
 import com.dmaqrss.mpu_api.model.roles.UserRoles;
+import com.dmaqrss.mpu_api.publisher.PasswordEmailPublisher;
 import com.dmaqrss.mpu_api.repository.UserRepository;
 import com.dmaqrss.mpu_api.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class UserService {
     TokenService tokenService;
 
     @Autowired
-    EmailService emailService;
+    PasswordEmailPublisher publisher;
 
     public UserResponseDTO register(UserRegisterDTO dto){
         if(repository.existsByEmail(dto.email())){throw new BusinessException("o email já existe");}
@@ -53,7 +55,8 @@ public class UserService {
         repository.findByEmail(email).ifPresent(user -> {
             String token = tokenService.generateResetToken(email);
             String link = "http://localhost:8080/user/reset-password?token=" + token;
-            emailService.sendEmail(email, "reset de senha", "clique " + link);
+
+            publisher.resetPasswordEmail(new ResetPasswordDTO(link, email));
         });
     }
 

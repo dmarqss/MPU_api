@@ -48,6 +48,5 @@ public class ProductService {
 
     public Page<ProductResponseDTO> getProducts(Pageable pageable){
         return repository.findAll(pageable).map(mapper::toResponse);
-
     }
 }
