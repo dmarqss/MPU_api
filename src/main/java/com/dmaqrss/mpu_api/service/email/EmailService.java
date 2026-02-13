@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.service;
+package com.dmaqrss.mpu_api.service.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

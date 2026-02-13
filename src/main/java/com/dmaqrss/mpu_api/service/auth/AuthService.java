@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.service;
+package com.dmaqrss.mpu_api.service.auth;
 
 import com.dmaqrss.mpu_api.dto.user.UserLoginDTO;
 import com.dmaqrss.mpu_api.model.User;

@@ -1,5 +1,6 @@
-package com.dmaqrss.mpu_api.service;
+package com.dmaqrss.mpu_api.service.payment;
 
+import com.dmaqrss.mpu_api.dto.payment.PaymentEmailDTO;
 import com.dmaqrss.mpu_api.dto.payment.PaymentResponseDTO;
 import com.dmaqrss.mpu_api.exception.BusinessException;
 import com.dmaqrss.mpu_api.model.Order;
@@ -8,6 +9,7 @@ import com.dmaqrss.mpu_api.model.User;
 import com.dmaqrss.mpu_api.model.roles.OrderStatusRole;
 import com.dmaqrss.mpu_api.model.roles.PaymentMethod;
 import com.dmaqrss.mpu_api.model.roles.PaymentStatus;
+import com.dmaqrss.mpu_api.publisher.PaymentEmailPublisher;
 import com.dmaqrss.mpu_api.repository.OrderRepository;
 import com.dmaqrss.mpu_api.repository.PaymentRespository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class PaymentService {
 
     @Autowired
     PaymentRespository paymentRespository;
+
+    @Autowired
+    PaymentEmailPublisher paymentEmailPublisher;
 
     @Transactional
     public PaymentResponseDTO createPayment(Long id, PaymentMethod method, User user){
@@ -57,6 +62,7 @@ public class PaymentService {
         return order;
     }
 
+    @Transactional
     public PaymentResponseDTO confirmPayment(Long id){
         Payment payment = validatePayment(id);
         payment.setConfirmedAt(LocalDateTime.now());
@@ -67,6 +73,7 @@ public class PaymentService {
         order.setStatus(OrderStatusRole.PAID);
         orderRepository.save(order);
 
+        paymentEmailPublisher.paymentConfirmedEmail(new PaymentEmailDTO(order.getUser().getEmail(), payment.getId()));
 
         return new PaymentResponseDTO(payment);
     }
@@ -83,11 +90,14 @@ public class PaymentService {
         return payment;
     }
 
+    @Transactional
     public PaymentResponseDTO failPayment(Long id){
         Payment payment = validatePayment(id);
 
         payment.setStatus(PaymentStatus.FAILED);
         paymentRespository.save(payment);
+
+        paymentEmailPublisher.paymentFailedEmail(new PaymentEmailDTO(payment.getOrder().getUser().getEmail(), payment.getId()));
 
         return new PaymentResponseDTO(payment);
     }

@@ -1,4 +1,4 @@
-package com.dmaqrss.mpu_api.service;
+package com.dmaqrss.mpu_api.service.product;
 
 import com.dmaqrss.mpu_api.dto.product.ProductRequestDTO;
 import com.dmaqrss.mpu_api.dto.product.ProductResponseDTO;
@@ -48,6 +48,5 @@ public class ProductService {
 
     public Page<ProductResponseDTO> getProducts(Pageable pageable){
         return repository.findAll(pageable).map(mapper::toResponse);
-
     }
 }
