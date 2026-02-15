@@ -48,6 +48,7 @@ public class UserService {
     public UserResponseDTO updateRole(String email, UserRoleDTO role){
         User user = repository.findByEmail(email).orElseThrow(() -> new BusinessException("o email não existe"));
         user.setRole(role.role());
+        repository.save(user);
         return mapper.toResponse(user);
     }
 
