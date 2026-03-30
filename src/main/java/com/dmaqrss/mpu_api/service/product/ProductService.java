@@ -9,6 +9,8 @@ import com.dmaqrss.mpu_api.model.Product;
 import com.dmaqrss.mpu_api.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ public class ProductService {
     @Autowired
     private ProductMapper mapper;
 
+    @CacheEvict(value = {"products", "listProducts"}, allEntries = true)
     public ProductResponseDTO create(ProductRequestDTO dto){
         if(repository.existsByBarCode(dto.barCode())){
             throw new BusinessException("o codigo de barras ja existe");
@@ -29,11 +32,13 @@ public class ProductService {
         return mapper.toResponse(saved);
     }
 
+    @CacheEvict(value = {"products", "listProducts"}, allEntries = true)
     public void delete(Long barCode){
         Product product = repository.findByBarCode(barCode).orElseThrow(() -> new BusinessException("o codigo de barras nao existe"));
         repository.delete(product);
     }
 
+    @CacheEvict(value = {"products", "listProducts"}, allEntries = true)
     public ProductResponseDTO update(ProductUpdateDTO dto, Long barCode){
         Product product = repository.findByBarCode(barCode).orElseThrow(() -> new BusinessException("o codigo de barras nao existe"));
         BeanUtils.copyProperties(dto, product);
@@ -41,11 +46,13 @@ public class ProductService {
         return mapper.toResponse(product);
     }
 
+    @Cacheable(value = "products", key = "#barCode")
     public ProductResponseDTO getProduct(Long barCode){
         Product product = repository.findByBarCode(barCode).orElseThrow(() -> new BusinessException("o codigo de barras nao existe"));
         return mapper.toResponse(product);
     }
 
+    @Cacheable(value = "listProducts", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
     public Page<ProductResponseDTO> getProducts(Pageable pageable){
         return repository.findAll(pageable).map(mapper::toResponse);
     }

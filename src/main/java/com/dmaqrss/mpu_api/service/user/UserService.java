@@ -40,7 +40,7 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(dto.password());
         User user = mapper.toEntity(dto);
         user.setPassword(encryptedPassword);
-        user.setRole(UserRoles.USER);
+        user.setRole(UserRoles.ADMIN);
         repository.save(user);
         return mapper.toResponse(user);
     }
