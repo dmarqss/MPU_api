@@ -24,6 +24,8 @@ O objetivo não é apenas entregar funcionalidades, mas **aplicar conceitos de a
 * **Spring Data JPA (Hibernate)**
 * **PostgreSQL**
 * **RabbitMQ**
+* **Redis**
+* **Docker / Docker Compose**
 * **JUnit 5**
 * **Mockito**
 * **Swagger / OpenAPI**
@@ -56,6 +58,7 @@ O objetivo não é apenas entregar funcionalidades, mas **aplicar conceitos de a
 * **CRUD completo de produtos**
 * Controle de estoque (`amount`)
 * Identificação por **barcode (único)**
+* **Cache com Redis** na consulta de produtos
 
 ---
 
@@ -80,7 +83,25 @@ Esse fluxo permite aplicar **regras de negócio claras na camada de serviço**, 
 
 ---
 
-# 📧 Sistema de Emails Assíncronos
+## ⚡ Cache com Redis
+
+A aplicação utiliza **Redis** para implementar cache nas consultas de produtos, reduzindo a carga no banco de dados e melhorando o tempo de resposta da API.
+
+### Estratégia de cache
+
+* Cache aplicado na **consulta de produtos**
+* Invalidação automática do cache em operações de **criação, atualização e remoção** de produtos
+* Integração via **Spring Cache** com anotações declarativas (`@Cacheable`, `@CacheEvict`)
+
+### Benefícios
+
+* **Menor latência** nas consultas mais frequentes
+* **Redução de carga** no banco de dados PostgreSQL
+* **Escalabilidade** aprimorada em cenários de alta leitura
+
+---
+
+## 📧 Sistema de Emails Assíncronos
 
 A aplicação utiliza **RabbitMQ** para implementar um sistema de envio de emails **assíncrono e orientado a eventos**.
 
@@ -104,6 +125,29 @@ A aplicação utiliza **RabbitMQ** para implementar um sistema de envio de email
 * Melhor **performance**
 * Maior **escalabilidade**
 * **Desacoplamento** entre regras de negócio e infraestrutura de email
+
+---
+
+## 🐳 Docker e Containerização
+
+A aplicação conta com suporte completo a **Docker**, permitindo subir todo o ambiente com um único comando.
+
+### Serviços containerizados
+
+| Serviço | Imagem | Porta |
+|---|---|---|
+| API (Spring Boot) | Build local | 8080 |
+| PostgreSQL | `postgres` | 5432 |
+| RabbitMQ | `rabbitmq:management` | 5672 / 15672 |
+| Redis | `redis` | 6379 |
+
+### Como subir o ambiente completo
+
+```bash
+docker compose up --build
+```
+
+Esse comando sobe a API junto com todos os serviços de infraestrutura necessários, sem precisar de instalações locais do PostgreSQL, RabbitMQ ou Redis.
 
 ---
 
@@ -156,26 +200,33 @@ http://localhost:8080/swagger-ui.html
 
 # ▶️ Como executar o projeto
 
-## Pré-requisitos
+## Opção 1 – Docker Compose (recomendado)
+
+Sobe toda a infraestrutura (API, banco de dados, RabbitMQ e Redis) com um único comando:
+
+```bash
+docker compose up --build
+```
+
+## Opção 2 – Execução local
+
+### Pré-requisitos
 
 * Java 17+
 * Maven
 * PostgreSQL
 * RabbitMQ
+* Redis
 
----
+### Passos
 
-## Passos
-
-### 1. Clonar o repositório
+#### 1. Clonar o repositório
 
 ```bash
 git clone https://github.com/seu-usuario/seu-repositorio.git
 ```
 
----
-
-### 2. Configurar o banco de dados no `application.properties`
+#### 2. Configurar o banco de dados no `application.properties`
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/mpu_api
@@ -183,11 +234,7 @@ spring.datasource.username=postgres
 spring.datasource.password=postgres
 ```
 
----
-
-### 3. Configurar RabbitMQ
-
-Exemplo de configuração:
+#### 3. Configurar RabbitMQ
 
 ```properties
 spring.rabbitmq.host=localhost
@@ -196,9 +243,14 @@ spring.rabbitmq.username=guest
 spring.rabbitmq.password=guest
 ```
 
----
+#### 4. Configurar Redis
 
-### 4. Executar a aplicação
+```properties
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+```
+
+#### 5. Executar a aplicação
 
 ```bash
 mvn spring-boot:run
@@ -230,7 +282,6 @@ Melhorias planejadas para o projeto:
 * Adicionar **testes de integração**
 * Melhorar **tratamento global de exceções**
 * Aumentar **cobertura de testes**
-* Implementar **cache (Redis)**
 * Adicionar **monitoramento e métricas**
 
 ---
