@@ -1,10 +1,49 @@
 version: '3.1'
-
 services:
-
   rabbitmq:
     image: "rabbitmq:3.8.6-management"
     container_name: rabbitmq-mpu
+    network_mode: "host"
     ports:
       - 5672:5672
       - 15672:15672
+
+  redis:
+    image: "redis"
+    container_name: redis-mpu
+    network_mode: "host"
+    ports:
+      - 6379:6379
+
+  postgres:
+    image: "postgres:15"
+    container_name: postgres-mpu
+    network_mode: "host"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: "api-mpu"
+    network_mode: "host"
+    ports:
+      - 8080:8080
+    depends_on:
+      - rabbitmq
+      - redis
+      - postgres
+    environment:
+      - SPRING_RABBITMQ_HOST=localhost
+      - SPRING_REDIS_HOST=localhost
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+
+volumes:
+  postgres_data:
