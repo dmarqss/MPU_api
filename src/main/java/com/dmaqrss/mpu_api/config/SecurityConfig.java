@@ -23,7 +23,7 @@ public class SecurityConfig {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/swagger-ui/**","/v3/api-docs/**", "/swegger-ui.html").permitAll()
+                        .requestMatchers( "/swagger-ui/*/**","/v3/api-docs/**", "/swegger-ui.html").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/products").hasRole("SELLER")
                         .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("SELLER")
